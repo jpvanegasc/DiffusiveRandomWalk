@@ -27,6 +27,7 @@ int main(void)
         std::cout << std::endl;
     }
 
+    delete[] CoffeeMug;
 
     return 0;
 }
