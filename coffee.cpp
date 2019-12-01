@@ -35,11 +35,12 @@ int main(void)
 //-----FUNCTIONS-----
 void initial (int *Mug)
 {
-    int seed = 1;
-    std::mt19937 gen(seed);
-    std::uniform_int_distribution<> dis(-10, 10);
-    for(int n = 0; n < Nmol; ++n) {
-        int xi= dis(gen) + N/2; int yi = dis(gen) + N/2;
-        Mug[xi*N + yi] += 1;
+    //int seed = 1;
+    //std::mt19937 gen(seed);
+    //std::uniform_int_distribution<> dis(-10, 10);
+    for(int xi = N/2-10; xi < N/2 +10; ++xi) {
+        for(int yi = N/2 - 10; yi < N/2 + 10; ++yi)
+        //int xi= dis(gen) + N/2; int yi = dis(gen) + N/2;
+        Mug[xi*N + yi] += 4;
     }
 }
