@@ -5,8 +5,8 @@
 
 #include"Random64.hpp"
 
-const int Lx = 100;
-const int Ly = 100;
+const int Lx = 200;
+const int Ly = 200;
 
 class RWLattice{
     private:
@@ -16,6 +16,7 @@ class RWLattice{
         ~RWLattice();
         int get1D(int ix, int iy);
         void initialize(void);
+        void propagate(void);
         void save(std::string filename);
 };
 
@@ -32,6 +33,17 @@ int RWLattice::get1D(int ix, int iy){
 }
 
 void RWLattice::initialize(void){
+    for (int ix=0; ix<Lx; ix++)
+        for (int iy=0; iy<Ly; iy++){
+            int pos = get1D(ix, iy);
+            coffee[pos] = 0;
+            if(ix >= 90 && ix <= 110)
+                if(iy >= 90 && iy <= 110)
+                    coffee[pos] = 1;
+        }
+}
+
+void RWLattice::propagate(void){
     for (int ix=0; ix<Lx; ix++)
         for (int iy=0; iy<Ly; iy++){
             int pos = get1D(ix, iy);
