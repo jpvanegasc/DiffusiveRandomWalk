@@ -16,7 +16,7 @@ class RWLattice{
     private:
         int *coffee = NULL;
     public:
-        RWLattice(unsigned long long seed);
+        RWLattice(void);
         ~RWLattice();
         int get1D(int ix, int iy);
         void initialize(void);
@@ -25,7 +25,7 @@ class RWLattice{
         void save(std::string filename);
 };
 
-RWLattice::RWLattice(unsigned long long seed){
+RWLattice::RWLattice(void){
     coffee = new int[Lx*Ly];
 }
 
@@ -65,7 +65,7 @@ void RWLattice::propagate(void){
             }
             else{ // Moves in y
                 if(p > r_2 && iy != Ly-1) coffee[get1D(ix, iy+1)]++; // Up
-                else if(iy != 0) coffee[get1D(ix, iy)]++; // Down
+                else if(iy != 0) coffee[get1D(ix, iy-1)]++; // Down
                 else if(iy == 0 || iy == Ly-1) continue;
             }
             coffee[pos]--;

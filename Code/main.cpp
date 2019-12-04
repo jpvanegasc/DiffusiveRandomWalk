@@ -4,8 +4,8 @@
 #include"CA_RandomWalk.hpp"
 
 int main(void){
-    RWLattice CoffeeMug(1);
-    int t_max = 1e1;
+    RWLattice CoffeeMug;
+    int t_max = 1e2;
 
     CoffeeMug.initialize();
     for (int i=0; i<t_max; i++){
