@@ -79,7 +79,7 @@ void RWLattice::propagate(void){
 }
 /**
  * Check that molecules don't "dissapear" from the lattice
- * @return true if everything is allright, false if a molecule is missing
+ * @return true if everything is alright, false if a molecule is missing
 */
 bool RWLattice::check(void){
     int sum = 0;
