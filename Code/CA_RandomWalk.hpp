@@ -39,10 +39,11 @@ int RWLattice::get1D(int ix, int iy){
 
 void RWLattice::initialize(void){
     // All zeros
-    #pragma opm parallel for
+    #pragma omp parallel for
     for(int i=0; i<Lx*Ly; i++)
         coffee[i] = 0;
     // Place molecules
+    #pragma omp parallel for
     for(int ix=90; ix<110; ix++)
         for(int iy=90; iy<110; iy++){
             int pos = get1D(ix, iy);
