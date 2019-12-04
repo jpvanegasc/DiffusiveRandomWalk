@@ -41,5 +41,6 @@ perf : main.cpp
 clean :
 	rm -f *.o *.txt *.out* debug main *.data
 
-datos.txt : sumas.x
-	time ./$< > $@
+.PHONY : plot
+plot : coffee.txt
+	gnuplot plot.gp
