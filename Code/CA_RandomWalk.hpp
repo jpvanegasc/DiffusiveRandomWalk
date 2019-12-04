@@ -24,19 +24,19 @@ class RWLattice{
         bool check(void);
         void save(std::string filename);
 };
-
+/* Allocate memory for lattice */
 RWLattice::RWLattice(void){
     coffee = new int[Lx*Ly];
 }
-
+/* Free memory */
 RWLattice::~RWLattice(){
     delete[] coffee;
 }
-
+/* Transfor from 2D to 1D index*/
 int RWLattice::get1D(int ix, int iy){
     return ix*Ly + iy;
 }
-
+/* Initial conditions*/
 void RWLattice::initialize(void){
     // All zeros
     #pragma omp parallel for
@@ -51,7 +51,11 @@ void RWLattice::initialize(void){
         }
     if(check() == false) throw "Bad initialization";
 }
-
+/**
+ * One step of Random Walk for each molecule on the lattice. 
+ * 
+ * Two or more molecules are allowed on the same spot, boundaries are closed.
+*/
 void RWLattice::propagate(void){
     for (int ix=0; ix<Lx; ix++)
         for (int iy=0; iy<Ly; iy++){
@@ -73,7 +77,10 @@ void RWLattice::propagate(void){
 
         }
 }
-
+/**
+ * Check that molecules don't "dissapear" from the lattice
+ * @return true if everything is allright, false if a molecule is missing
+*/
 bool RWLattice::check(void){
     int sum = 0;
     #pragma opm parallel for reduction(+:sum)
@@ -83,7 +90,7 @@ bool RWLattice::check(void){
     if(sum == N) return true;
     else return false;
 }
-
+/* Saves file in gnuplot splot format*/
 void RWLattice::save(std::string filename){
     std::ofstream File(filename);
     for(int ix=0; ix<Lx; ix++){
