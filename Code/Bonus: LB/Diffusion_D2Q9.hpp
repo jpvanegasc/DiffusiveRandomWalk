@@ -34,7 +34,7 @@ class LatticeBoltzmann{
         double f_eq(double rho0, double Ux0, double Uy0, int i);
         void collide(void);
         void propagate(void);
-        void initialize(double rho0, double Ux0, double Uy0);
+        void initialize(void);
         void impose_fields(double v);
         void save(std::string filename, double v);
         void print(double v);
@@ -140,11 +140,15 @@ void LatticeBoltzmann::propagate(void){
             }
 }
 
-void LatticeBoltzmann::initialize(double rho0, double Ux0, double Uy0){
+void LatticeBoltzmann::initialize(void){
     for(int ix=0; ix<Lx; ix++)
         for(int iy=0; iy<Ly; iy++){
                 int pos = get_1D(ix, iy);
-                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho0, Ux0, Uy0, i);
+                double rho0 = 0;
+                
+                if(ix>90 && ix<110 && iy>90 && iy<110) rho0 = 1;
+
+                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho0, 0, 0, i);
             }
 }
 
