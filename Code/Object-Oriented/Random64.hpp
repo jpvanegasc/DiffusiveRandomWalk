@@ -4,24 +4,23 @@
  */
 #include<cmath>
 
-class Crandom{
-    unsigned long long u,v,w;
+class CRandom{
+    unsigned long long u, v, w;
     public:
-        Crandom(unsigned long long j);
+        Crandom(unsigned long long seed);
         unsigned long long int64();
         double r() {return 5.42101086242752217E-20 * int64();}
         unsigned int int32(){return (unsigned int) int64();};
         double exponencial(float tau);
-        double gauss(float mu,float sigma);
+        double gauss(float mu, float sigma);
 };
 
-Crandom::Crandom(unsigned long long j){
-    v=4101842887655102017LL; w=1;
-    u = j ^ v; int64();
+Crandom::Crandom(unsigned long long seed){
+    v = 4101842887655102017LL; w=1;
+    u = seed ^ v; int64();
     v = u; int64();
     w = v; int64();
 }
-
 unsigned long long Crandom::int64() {
     u = u * 2862933555777941757LL + 7046029254386353087LL;
     v ^= v >> 17; v ^= v << 31; v ^= v >> 8;
@@ -30,11 +29,9 @@ unsigned long long Crandom::int64() {
     
     return (x + v) ^ w;
 }
-
 double Crandom::exponencial(float tau){
     return -tau*std::log(r());
 }
-
 double Crandom:: gauss(float mu, float sigma){
     return sigma*std::sqrt(-2*std::log(r()))*std::cos(2*M_PI*r()) + mu;
 }
