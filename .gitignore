@@ -2,4 +2,8 @@
 *.o
 *.json
 *txt
-
+*.aux
+*.fls
+*.fdb*
+*.gz*
+*.log
