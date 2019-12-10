@@ -1,4 +1,7 @@
 # Random Walk, Entropy And the Arrow of Time 
+Repository for the final project of the Herramientas Computacionales course, fall semester 
+of 2019. This project deals with (as the title states) Entropy on a diffusive system, 
+represented here using a random walk lattice model.
 
 ## Authors
 * Juan Pablo Vanegas Correa
@@ -14,9 +17,9 @@ would need to include an extra flag, like this:
 ```bash
 g++ -std=c++11 -fopenmp program_name_here.cpp
 ```
-However, makefiles are included to save time and effort in this matter, and diferent 
-debugging, profiling and optimization checks are also automatized. Please do check the 
-following table:
+However, makefiles are included to save time and effort in this matter for some files, 
+and diferent debugging, profiling and optimization checks are also automatized. Please do 
+check the following table:
 
 ### Implemented Automatization
 | Shell Command   | What it does oversimplified                                               |
