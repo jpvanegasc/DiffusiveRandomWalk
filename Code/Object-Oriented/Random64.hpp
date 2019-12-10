@@ -4,7 +4,7 @@
  */
 #include<cmath>
 
-class CRandom{
+class Crandom{
     unsigned long long u, v, w;
     public:
         Crandom(unsigned long long seed);
