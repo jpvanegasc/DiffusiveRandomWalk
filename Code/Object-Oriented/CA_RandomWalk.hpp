@@ -7,10 +7,16 @@
 
 const int Lx = 200;
 const int Ly = 200;
-const int N = 400;
+const int Nx = 20, Ny = 20;
+const int N = Nx*Ny;
 
 Crandom ran64(1);
 const double p = 0.5;
+
+const int cellsx = 8;
+const int cellsy = 8;
+const int step_x = Lx/cellsx;
+const int step_y = Ly/cellsy;
 
 class RWLattice{
     private:
@@ -42,10 +48,12 @@ void RWLattice::initialize(void){
     #pragma omp parallel for
     for(int i=0; i<Lx*Ly; i++)
         coffee[i] = 0;
-    // Place molecules
+    // Place molecules in a rectangle centered on the lattice
+    int x_start = Lx/2 - Nx/2, x_end = Lx/2 + Nx/2;
+    int y_start = Ly/2 - Ny/2, y_end = Ly/2 + Ny/2;
     #pragma omp parallel for
-    for(int ix=90; ix<110; ix++)
-        for(int iy=90; iy<110; iy++){
+    for(int ix=x_start; ix<x_end; ix++)
+        for(int iy=y_start; iy<y_end; iy++){
             int pos = get1D(ix, iy);
             coffee[pos] = 1;
         }
