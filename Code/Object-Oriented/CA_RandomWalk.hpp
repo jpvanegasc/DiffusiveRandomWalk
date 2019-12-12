@@ -20,7 +20,7 @@ const int step_y = Ly/cellsy;
 
 class RWLattice{
     private:
-        int *coffee = NULL;
+        int *coffee = nullptr;
     public:
         RWLattice(void);
         ~RWLattice();
@@ -101,10 +101,21 @@ bool RWLattice::check(void){
 }
 /* Calculates the Shannon Entropy for the lattice in a given state*/
 double RWLattice::entropy(void){
-    double S = 0, P = 1;
-    for(int ix=0; ix<Lx; ix+=step_x)
-        for(int iy=0; iy<Ly; iy+=step_y){
-            S += P*std::log10(P);
+    double S = 0;
+    /**
+     * Calculates the probability for the system to be in state (ix,iy)
+     * Examples: state (0,0) is the uppermost, leftmost cell 
+     *           state (0,1) is the cell directly behind (0,0)
+     *           state (1,0) is the cell directly to the right of (0,0)
+     */
+    auto P = [lattice=coffee](int cell_idx, int cell_idy)-> double {
+        // Wtf do I do here?? Pls help
+        return 1.0;
+    };
+
+    for(int ix=0; ix<cellsx; ix++)
+        for(int iy=0; iy<cellsy; iy++){
+            S += P(ix, iy)*std::log10(P(ix, iy));
     }
     return S;
 }
