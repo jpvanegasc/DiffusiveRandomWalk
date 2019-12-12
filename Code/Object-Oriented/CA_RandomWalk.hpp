@@ -28,6 +28,7 @@ class RWLattice{
         void initialize(void);
         void propagate(void);
         bool check(void);
+        double entropy(void);
         void save(std::string filename);
 };
 /* Allocate memory for lattice */
@@ -65,8 +66,8 @@ void RWLattice::initialize(void){
  * Two or more molecules are allowed on the same spot, boundaries are closed.
 */
 void RWLattice::propagate(void){
-    for (int ix=0; ix<Lx; ix++)
-        for (int iy=0; iy<Ly; iy++){
+    for(int ix=0; ix<Lx; ix++)
+        for(int iy=0; iy<Ly; iy++){
             int pos = get1D(ix, iy);
             if(coffee[pos] == 0) continue;
 
@@ -97,6 +98,15 @@ bool RWLattice::check(void){
     
     if(sum == N) return true;
     else return false;
+}
+/* Calculates the Shannon Entropy for the lattice in a given state*/
+double RWLattice::entropy(void){
+    double S = 0, P = 1;
+    for(int ix=0; ix<Lx; ix+=step_x)
+        for(int iy=0; iy<Ly; iy+=step_y){
+            S += P*std::log10(P);
+    }
+    return S;
 }
 /* Saves file in gnuplot splot format*/
 void RWLattice::save(std::string filename){
