@@ -12,7 +12,8 @@ const int T = 1000000;
 //----- Function Declarations ----- |
 void random_step(int *Mol, int i, double r1, double r2);
 void draw(int *balls);
-void initial(int *mol);
+void initialDrop(int *mol, int size);
+double entropy(int *mol);
 
 //----- MAIN ----- |
 int main(void)
@@ -28,7 +29,7 @@ int main(void)
     for(int i = 0; i < 2 * Nmol; ++i) {
         Mol[i] = 0; 
     }
-    initial(Mol);
+    initialDrop(Mol, 20);
     for(int t=0; t < T; ++t){
     // Select random molecule
     int r0 = dis1(gen);
@@ -37,9 +38,8 @@ int main(void)
     double r1 = dis(gen);
     double r2 = dis(gen);
     random_step(Mol, r0 , r1, r2);
+    std::cout<< t << "\t"<< entropy(Mol) << "\n";
     }
-    
-    draw(Mol);
 
     delete [] Mol;
 
@@ -93,15 +93,40 @@ void draw(int *balls)
     }
 
 }
-void initial(int *mol)
+void initialDrop(int *mol, int size)
 {
-    int ri, xi, yi, i = 0;
-    ri = 20; 
-    xi = - ri/2; yi = - ri/2;
-    for(int x = xi; x < (xi + ri); x++)
-        for(int y = yi; y < (yi + ri); y++){
+    int xi, yi, i = 0;
+    size = 20; 
+    xi = - size/2; yi = - size/2;
+    for(int x = xi; x < (xi + size); x++)
+        for(int y = yi; y < (yi + size); y++){
             mol[2*i] = x;   mol[2*i + 1] = y;
             i++;  
         }
+}
+double entropy(int *mol){
 
+    //Init Grid
+    int Ngrid = 20;
+    int Grid[Ngrid][Ngrid];
+    for (int ii = 0; ii < Ngrid; ++ii)
+        for (int jj = 0; jj < Ngrid; ++jj)
+            Grid[ii][jj] = 0;
+
+    //Count balls
+    int GridSize = L/Ngrid; 
+    for(int i = 0; i < Nmol; ++i) {
+        Grid[(mol[i*2] + L/2)/Ngrid][(mol[i*2+1] + L/2)/Ngrid]++;
+    }
+    double P;
+    double S= 0;
+    for (int ii = 0; ii < Ngrid; ++ii){
+        for (int jj = 0; jj < Ngrid; ++jj){
+            P = Grid[ii][jj]*1.0/Nmol;
+            if(P != 0)
+                S += P*log(P);
+        }
+    }
+
+    return S;
 }
