@@ -118,13 +118,15 @@ double entropy(int *mol){
     for(int i = 0; i < Nmol; ++i) {
         Grid[(mol[i*2] + L/2)/Ngrid][(mol[i*2+1] + L/2)/Ngrid]++;
     }
+
+    // Calculate P and S
     double P;
     double S= 0;
     for (int ii = 0; ii < Ngrid; ++ii){
         for (int jj = 0; jj < Ngrid; ++jj){
             P = Grid[ii][jj]*1.0/Nmol;
             if(P != 0)
-                S += P*log(P);
+                S += -P*log(P);
         }
     }
 
