@@ -39,7 +39,7 @@ RWLattice::RWLattice(void){
 RWLattice::~RWLattice(){
     delete[] coffee;
 }
-/* Transfor from 2D to 1D index*/
+/* Transform from 2D to 1D index*/
 int RWLattice::get1D(int ix, int iy){
     return ix*Ly + iy;
 }
@@ -108,16 +108,26 @@ double RWLattice::entropy(void){
      *           state (0,1) is the cell directly behind (0,0)
      *           state (1,0) is the cell directly to the right of (0,0)
      */
-    auto P = [lattice=coffee](int cell_idx, int cell_idy)-> double {
-        // Wtf do I do here?? Pls help
-        return 1.0;
+    auto P = [=](int cell_idx, int cell_idy)-> double {
+        int start_x = cell_idx*step_x, start_y = cell_idy*step_y;
+        int end_x = start_x + step_x, end_y = start_y + step_y;
+        int sum = 0;
+        #pragma omp parallel for reduction(+:sum)
+        for(int ix=start_x; ix<end_x; ix++)
+            for(int iy=start_y; iy<end_y; iy++){
+                int pos = get1D(ix, iy);
+                sum += coffee[pos];
+            }
+        if(sum == 0) return 1.0;
+        else return sum/(1.0*N);
     };
 
     for(int ix=0; ix<cellsx; ix++)
         for(int iy=0; iy<cellsy; iy++){
-            S += P(ix, iy)*std::log10(P(ix, iy));
+            double P_i = P(ix, iy);
+            S += P_i*std::log(P_i);
     }
-    return S;
+    return -1.0*S;
 }
 /* Saves file in gnuplot splot format*/
 void RWLattice::save(std::string filename){
