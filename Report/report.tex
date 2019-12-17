@@ -62,7 +62,10 @@ Random Walk.
 Para modelar este fenómeno utilizamos dos paradigmas de programación diferentes: Procedimental 
 y Orientado a Objetos, cada uno utilizando un algoritmo de propagación diferente. El 
 algoritmo utilizado para el paradigma procedimental, descrito en la figura 
-\ref{fig:algoritmo_Proc}, que consta en 
+\ref{fig:algoritmo_Proc}, que consta en un arreglo de moléculas, donde cada elemento tiene 
+la posición en x y y de una molécula. Para evolucionar el sistema se elige al azar una molécula, 
+y se modifica su posición, de manera que se mueva una unidad en alguna dirección aleatoria. 
+Este procedimiento de elegir una molécula y moverla se toma como un paso de tiempo.
 \\
 \begin{figure*}
     \centering
@@ -134,14 +137,28 @@ comparar directamente los resultados obtenidos en ambos paradigmas.
 
 \begin{figure*}
     \centering
+    \includegraphics[width=0.75\textwidth]{figs/S_vs_t_sizes.png}
+    \caption{Comparación de la Entropía en función del tiempo para diferentes tamaños de Lattice.}
+    \label{fig:hole}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figs/size.png}
+    \caption{Tamaño de la gota de crema en función del tiempo.}
+    \label{fig:hole}
+\end{figure*}
+
+\begin{figure*}
+    \centering
     \includegraphics[width=0.75\textwidth]{figs/hole.png}
     \caption{Propagación de las moléculas con un agujero en la pared.}
     \label{fig:hole}
 \end{figure*}
 
-
-
-
 \section{Conclusiones}
+\begin{itemize}
+    \item 
+\end{itemize}
 
 \end{document}
