@@ -37,13 +37,13 @@ Para modelar este fenómeno utilizamos dos paradigmas de programación diferente
 y Orientado a Objetos, cada uno utilizando un algoritmo de propagación diferente. El 
 algoritmo utilizado para el paradigma procedimental, descrito en la figura 
 \ref{fig:algoritmo_Proc}, que consta en 
-
-\begin{figure}
+\\
+\begin{figure*}
     \centering
-    \includegraphics[width=0.3\textwidth]{figs/Algoritmo_Proc.png}
+    \includegraphics[width=0.75\textwidth]{figs/Algoritmo_Proc.png}
     \caption{Algoritmo 1.}
     \label{fig:algoritmo_Proc}
-\end{figure}
+\end{figure*}
 
 Por otro lado, para el paradigma orientado a objetos se implementó el algoritmo descrito 
 en la figura \ref{fig:algoritmo_OOP}, que consiste en una matriz bidimesional de enteros no 
@@ -52,12 +52,14 @@ mover las moléculas se recorre el Lattice celda por celda, y en caso de que se 
 menos una molécula en una celda se mueve a alguna casilla inmediatamente adyacente a la celda. 
 Utilizando este algoritmo se toma un paso de tiempo está dado por un recorrido completo al 
 Lattice, a diferencia del criterio empleado en el paradigma procedimental. 
-\\ \\
+\\
+
 Dos factores a considerar en este algoritmo es que, primero, en dado caso que una molécula 
 al desplazarse se ubique en la celda donde el algoritmo continúa buscando, esta se moverá 
 dos veces. Este caso, aunque poco probable, conlleva a una ligera pérdida de información 
 frente al algoritmo procedimental. 
-\\ \\
+\\
+
 En segundo lugar, dado que un paso de tiempo del paradigma orientado a objetos implica 
 mover aproximadamente todas las moléculas, cada paso de tiempo de este algoritmo es N veces 
 más rápido que el algoritmo procedural, con N el número inicial de moléculas. Por lo tanto, 
@@ -66,14 +68,13 @@ resultando en que el algoritmo orientado a objetos solo calcula una variable cad
 cálculos del algoritmo procedural. Este factor sí debe tenerse en cuenta, y solo puede 
 ser despreciado en caso de que el tiempo computacional total que se deba utilizar para 
 hallar resultados concluyentes sea mucho mayor a 400.
-\\ \\
-
-\begin{figure}
+\\
+\begin{figure*}
     \centering
-    \includegraphics[width=0.3\textwidth]{figs/Algoritmo_OOP.png}
+    \includegraphics[width=0.75\textwidth]{figs/Algoritmo_OOP.png}
     \caption{Algoritmo 2.}
     \label{fig:algoritmo_OOP}
-\end{figure}
+\end{figure*}
 
 Para validar cada uno de estos métodos se calculó la entropía en función del tiempo de 
 cómputo, donde esperamos que inicialmente halla un crecimiento muy rápido de la entropía del 
@@ -81,21 +82,19 @@ sistema, que para este caso corresponde a la gota de crema difundiéndose por la
 esperamos que la entropía se estabilice y tenga un comportamiento asintótico alrededor de 
 algún valor, que corresponde al momento en el que la crema se halla distribuido de manera 
 más o menos uniforme alrededor de la taza.
-\\ \\
-
-\begin{figure}
+\\
+\begin{figure*}
     \centering
-    \includegraphics[width=0.3\textwidth]{figs/S_vs_t_OOP.png}
+    \includegraphics[width=0.75\textwidth]{figs/S_vs_t_OOP.png}
     \caption{Entropía en función del tiempo para paradigma orientado a objetos.}
     \label{fig:s_vs_t_OOP}
-\end{figure}
-
-\begin{figure}
+\end{figure*}
+\begin{figure*}
     \centering
-    \includegraphics[width=0.3\textwidth]{figs/entropy.png}
+    \includegraphics[width=0.75\textwidth]{figs/entropy.png}
     \caption{Entropía en función del tiempo para paradigma procedimental.}
     \label{fig:s_vs_t_Proc}
-\end{figure}
+\end{figure*}
 
 Vemos que en ambos paradigmas, y por lo tanto, algoritmos, el comportamiento de la entropía 
 en función del tiempo es el esperado, por lo que ambos métodos quedan validados para modelar 
@@ -107,12 +106,12 @@ comparar directamente los resultados obtenidos en ambos paradigmas.
 
 \section{Resultados y Análisis}
 
-\begin{figure}
+\begin{figure*}
     \centering
-    \includegraphics[width=0.3\textwidth]{figs/hole.png}
+    \includegraphics[width=0.75\textwidth]{figs/hole.png}
     \caption{Propagación de las moléculas con un agujero en la pared.}
     \label{fig:hole}
-\end{figure}
+\end{figure*}
 
 
 
