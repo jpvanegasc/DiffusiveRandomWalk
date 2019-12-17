@@ -1,53 +1,8 @@
 #include<iostream>
 #include<cmath>
-#include <random>
 
-//----- Global Constants ----- |
-const double p = 0.5;
-const int Nmol = 400;
-const int v = 1; //Number of steps that a particle move each step.
-const int L = 200;
-const int T = 10000000;
+#include "Constants.hpp"
 
-//----- Function Declarations ----- |
-void random_step(int *Mol, int i, double r1, double r2);
-void draw(int *balls);
-void initialDrop(int *mol, int size);
-double entropy(int *mol);
-
-//----- MAIN ----- |
-int main(void)
-{
-    // Init random generator
-    int seed = 1; //Random seed 
-    std::mt19937 gen(seed);
-    std::uniform_real_distribution<> dis(0, 1);
-    std::uniform_int_distribution<> dis1(0, Nmol-1);
-
-    // Initialize
-    int *Mol= new int[Nmol * 2]; // A list with x and y position of all molecules
-    for(int i = 0; i < 2 * Nmol; ++i) {
-        Mol[i] = 0; 
-    }
-    initialDrop(Mol, 20);
-    for(int t=0; t < T; ++t){
-    // Select random molecule
-    int r0 = dis1(gen);
-    // Update selected molecule
-    // ---Select if moving in x or y
-    double r1 = dis(gen);
-    double r2 = dis(gen);
-    random_step(Mol, r0 , r1, r2);
-    std::cout<< t << "\t"<< entropy(Mol) << "\n";
-    }
-    //draw(Mol);
-
-    delete [] Mol;
-
-    return 0;
-}
-
-//----- FUNCTIONS ----- |
 void random_step(int *Mol, int i, double r1, double r2)
 {
     /*
@@ -128,4 +83,17 @@ double entropy(int *mol){
     }
 
     return S;
+}
+
+double DropSize(int *mol)
+{
+    double size=0;
+    for (int i=0; i <Nmol; ++i){
+        double r2= (mol[2*i]*mol[2*i]) + (mol[2*i + 1]*mol[2*i + 1]);
+        size += r2;
+    }
+    size = std::sqrt(size*1.0/Nmol);
+    
+
+    return size;
 }
