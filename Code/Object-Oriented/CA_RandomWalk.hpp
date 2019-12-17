@@ -17,6 +17,8 @@ class RWLattice{
         int get1D(int ix, int iy);
         void initialize(void);
         void propagate(void);
+        void propagate_with_hole(void);
+        int count(void);
         bool check(void);
         double entropy(void);
         double drop_size(void);
@@ -76,6 +78,51 @@ void RWLattice::propagate(void){
             coffee[pos]--;
 
         }
+}
+/**
+ * One step of Random Walk for each molecule on the lattice, but there's a hole one one of 
+ * the container walls, located centered on the vertical left wall.
+ * 
+ * Two or more molecules are allowed on the same spot, boundaries are closed (except for 
+ * the hole, obviously).
+*/
+void RWLattice::propagate_with_hole(void){
+    for(int ix=0; ix<Lx; ix++)
+        for(int iy=0; iy<Ly; iy++){
+            int pos = get1D(ix, iy);
+            if(coffee[pos] == 0) continue;
+
+            double r_1 = ran64.r(); double r_2 = ran64.r();
+            if(p >= r_1){ // Moves in x
+                // Hole
+                if(iy >= hole_start && iy <= hole_end){
+                    if(p >= r_2 && ix <= Lx-2) coffee[get1D(ix+1, iy)]++; // Right
+                    else if(p < r_2 && ix != 0) coffee[get1D(ix-1, iy)]++; // Left
+                    else if(ix == 0) continue;
+                }
+                else{
+                    if(p >= r_2 && ix != Lx-1) coffee[get1D(ix+1, iy)]++; // Right
+                    else if(ix != 0) coffee[get1D(ix-1, iy)]++; // Left
+                    else if(ix == 0 || ix == Lx-1) continue;
+                }
+            }
+            else{ // Moves in y
+                if(p >= r_2 && iy != Ly-1) coffee[get1D(ix, iy+1)]++; // Up
+                else if(iy != 0) coffee[get1D(ix, iy-1)]++; // Down
+                else if(iy == 0 || iy == Ly-1) continue;
+            }
+            coffee[pos]--;
+
+        }
+}
+/* Counts the number of molecules in the lattice */
+int RWLattice::count(void){
+    int sum = 0;
+    #pragma opm parallel for reduction(+:sum)
+    for(int i=0; i<Lx*Ly; i++)
+        sum += coffee[i];
+    
+    return sum;
 }
 /**
  * Check that molecules don't "dissapear" from the lattice

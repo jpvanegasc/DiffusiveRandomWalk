@@ -12,3 +12,5 @@ const int step_x = Lx/cellsx;
 const int step_y = Ly/cellsy;
 
 const int x_half = Lx/2, y_half = Ly/2;
+const int hole_length = Ly/5;
+const int hole_start = Ly/2-hole_length/2, hole_end = Ly/2+hole_length/2;
