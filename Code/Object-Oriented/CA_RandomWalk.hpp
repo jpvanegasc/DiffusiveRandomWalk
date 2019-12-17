@@ -19,6 +19,7 @@ class RWLattice{
         void propagate(void);
         bool check(void);
         double entropy(void);
+        double drop_size(void);
         void save(std::string filename);
 };
 /* Allocate memory for lattice */
@@ -118,6 +119,22 @@ double RWLattice::entropy(void){
             S += P_i*std::log(P_i);
     }
     return -1.0*S;
+}
+/**
+ * Calculates the size of the drop of cream using the root-mean-square distance of the 
+ * molecules to the center of the lattice
+ */
+double RWLattice::drop_size(void){
+    /* Calculates the distance from a molecule on cell (ix, iy) to the center of the lattice */
+    double r_sum = 0;
+    #pragma omp parallel for reduction(+:r_sum)
+    for(int ix=0; ix<Lx; ix++)
+        for(int iy=0; iy<Ly; iy++){
+            int pos = get1D(ix, iy);
+            if(coffee[pos] != 0) r_sum += std::sqrt((ix-x_half)*(ix-x_half) + (iy-y_half)*(iy-y_half));
+        }
+    
+    return std::sqrt(r_sum/(1.0*N));
 }
 /* Saves file in gnuplot splot format*/
 void RWLattice::save(std::string filename){
