@@ -12,7 +12,7 @@ parallel : main.cpp
 	time ./a.out
 
 .PHONY : debug
-debug : main.cpp
+debug : coffee.cpp
 	g++ $(C_STD) $(DEBUG) $<
 	./a.out
 

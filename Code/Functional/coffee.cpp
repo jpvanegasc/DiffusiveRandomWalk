@@ -7,7 +7,7 @@ const double p = 0.5;
 const int Nmol = 400;
 const int v = 1; //Number of steps that a particle move each step.
 const int L = 200;
-const int T = 1000000;
+const int T = 10000000;
 
 //----- Function Declarations ----- |
 void random_step(int *Mol, int i, double r1, double r2);
@@ -40,6 +40,7 @@ int main(void)
     random_step(Mol, r0 , r1, r2);
     std::cout<< t << "\t"<< entropy(Mol) << "\n";
     }
+    //draw(Mol);
 
     delete [] Mol;
 
@@ -55,19 +56,15 @@ void random_step(int *Mol, int i, double r1, double r2)
 
     if (p > r1){ // Moves in x
         if (p > r2){ // Moves to right
-            Mol[i*2]++;
-            if (Mol[i*2] == (L/2)) Mol[i*2] = -L/2 + 1;
+            if (Mol[i*2] < (L/2)-1) Mol[i*2]++;
         } else { // Moves to left
-            Mol[i*2]--;
-            if (Mol[i*2] == -(L/2)) Mol[i*2] = L/2 - 1;
+            if (Mol[i*2] > -(L/2)+1) Mol[i*2]--;
         }
     } else { // Moves in y
         if (p > r2){ // Moves up
-            Mol[i*2 + 1]++;
-            if (Mol[i*2 + 1] == (L/2)) Mol[i*2 + 1] = -L/2 + 1;
+            if (Mol[i*2 + 1] < (L/2)-1) Mol[i*2 + 1]++;
         } else { // Moves to down
-            Mol[i*2 + 1]--;
-            if (Mol[i*2 + 1] == -(L/2)) Mol[i*2 + 1] = L/2 - 1;
+            if (Mol[i*2 + 1] > -(L/2)+1) Mol[i*2 + 1]--;
         }
     }
     
@@ -82,7 +79,7 @@ void draw(int *balls)
     
     // Insert balls
     for(int i = 0; i < Nmol; ++i) {
-        Lattice[balls[i*2] + L/2][balls[i*2 + 1] + L/2]++;
+        Lattice[balls[i*2] + L/2][-balls[i*2 + 1] + L/2]++;
     }
 
     // Output in pm3d map format
@@ -107,7 +104,7 @@ void initialDrop(int *mol, int size)
 double entropy(int *mol){
 
     //Init Grid
-    int Ngrid = 20;
+    int Ngrid = 8;
     int Grid[Ngrid][Ngrid];
     for (int ii = 0; ii < Ngrid; ++ii)
         for (int jj = 0; jj < Ngrid; ++jj)
@@ -116,7 +113,7 @@ double entropy(int *mol){
     //Count balls
     int GridSize = L/Ngrid; 
     for(int i = 0; i < Nmol; ++i) {
-        Grid[(mol[i*2] + L/2)/Ngrid][(mol[i*2+1] + L/2)/Ngrid]++;
+        Grid[(mol[i*2] + L/2)/GridSize][(-mol[i*2+1] + L/2)/GridSize]++;
     }
 
     // Calculate P and S
@@ -126,7 +123,7 @@ double entropy(int *mol){
         for (int jj = 0; jj < Ngrid; ++jj){
             P = Grid[ii][jj]*1.0/Nmol;
             if(P != 0)
-                S += -P*log(P);
+                S += -P*std::log(P);
         }
     }
 
