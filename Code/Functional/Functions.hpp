@@ -1,5 +1,7 @@
 #include<iostream>
 #include<cmath>
+#include<fstream>
+#include<string>
 
 #include "Constants.hpp"
 
@@ -24,8 +26,13 @@ void random_step(int *Mol, int i, double r1, double r2)
     }
     
 }
-void draw(int *balls)
+void draw(int *balls, int t)
 {
+    //Init file
+    std::string time= std::to_string(t);
+    std::string filename = "drawing_t_" + time + ".txt";
+    std::ofstream File(filename);
+
     // Init lattice
     int Lattice[L][L];
     for (int ii = 0; ii < L; ++ii)
@@ -37,11 +44,11 @@ void draw(int *balls)
         Lattice[balls[i*2] + L/2][-balls[i*2 + 1] + L/2]++;
     }
 
-    // Output in pm3d map format
+    // Output in splot format
     for (int ii = 0; ii < L; ++ii){
         for (int jj = 0; jj < L; ++jj)
-            std::cout << ii - L/2 << "\t" << jj - L/2 << "\t" <<  Lattice[ii][jj] << std::endl;
-        std::cout << std::endl;
+            File << ii - L/2 << "\t" << jj - L/2 << "\t" <<  Lattice[ii][jj] << std::endl;
+        File << std::endl;
     }
 
 }
