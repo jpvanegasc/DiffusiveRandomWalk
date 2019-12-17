@@ -72,13 +72,13 @@ void RWLattice::propagate(void){
             if(coffee[pos] == 0) continue;
 
             double r_1 = ran64.r(); double r_2 = ran64.r();
-            if(p > r_1){ // Moves in x
-                if(p > r_2 && ix != Lx-1) coffee[get1D(ix+1, iy)]++; // Right
+            if(p >= r_1){ // Moves in x
+                if(p >= r_2 && ix != Lx-1) coffee[get1D(ix+1, iy)]++; // Right
                 else if(ix != 0) coffee[get1D(ix-1, iy)]++; // Left
                 else if(ix == 0 || ix == Lx-1) continue;
             }
             else{ // Moves in y
-                if(p > r_2 && iy != Ly-1) coffee[get1D(ix, iy+1)]++; // Up
+                if(p >= r_2 && iy != Ly-1) coffee[get1D(ix, iy+1)]++; // Up
                 else if(iy != 0) coffee[get1D(ix, iy-1)]++; // Down
                 else if(iy == 0 || iy == Ly-1) continue;
             }
