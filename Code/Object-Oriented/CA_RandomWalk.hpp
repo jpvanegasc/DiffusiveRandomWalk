@@ -17,8 +17,11 @@ class RWLattice{
         int get1D(int ix, int iy);
         void initialize(void);
         void propagate(void);
+        void propagate_with_hole(void);
+        int count(void);
         bool check(void);
         double entropy(void);
+        double drop_size(void);
         void save(std::string filename);
 };
 /* Allocate memory for lattice */
@@ -77,6 +80,51 @@ void RWLattice::propagate(void){
         }
 }
 /**
+ * One step of Random Walk for each molecule on the lattice, but there's a hole one one of 
+ * the container walls, located centered on the vertical left wall.
+ * 
+ * Two or more molecules are allowed on the same spot, boundaries are closed (except for 
+ * the hole, obviously).
+*/
+void RWLattice::propagate_with_hole(void){
+    for(int ix=0; ix<Lx; ix++)
+        for(int iy=0; iy<Ly; iy++){
+            int pos = get1D(ix, iy);
+            if(coffee[pos] == 0) continue;
+
+            double r_1 = ran64.r(); double r_2 = ran64.r();
+            if(p >= r_1){ // Moves in x
+                // Hole
+                if(iy >= hole_start && iy <= hole_end){
+                    if(p >= r_2 && ix <= Lx-2) coffee[get1D(ix+1, iy)]++; // Right
+                    else if(p < r_2 && ix != 0) coffee[get1D(ix-1, iy)]++; // Left
+                    else if(ix == 0) continue;
+                }
+                else{
+                    if(p >= r_2 && ix != Lx-1) coffee[get1D(ix+1, iy)]++; // Right
+                    else if(ix != 0) coffee[get1D(ix-1, iy)]++; // Left
+                    else if(ix == 0 || ix == Lx-1) continue;
+                }
+            }
+            else{ // Moves in y
+                if(p >= r_2 && iy != Ly-1) coffee[get1D(ix, iy+1)]++; // Up
+                else if(iy != 0) coffee[get1D(ix, iy-1)]++; // Down
+                else if(iy == 0 || iy == Ly-1) continue;
+            }
+            coffee[pos]--;
+
+        }
+}
+/* Counts the number of molecules in the lattice */
+int RWLattice::count(void){
+    int sum = 0;
+    #pragma opm parallel for reduction(+:sum)
+    for(int i=0; i<Lx*Ly; i++)
+        sum += coffee[i];
+    
+    return sum;
+}
+/**
  * Check that molecules don't "dissapear" from the lattice
  * @return true if everything is alright, false if a molecule is missing
 */
@@ -118,6 +166,22 @@ double RWLattice::entropy(void){
             S += P_i*std::log(P_i);
     }
     return -1.0*S;
+}
+/**
+ * Calculates the size of the drop of cream using the root-mean-square distance of the 
+ * molecules to the center of the lattice
+ */
+double RWLattice::drop_size(void){
+    /* Calculates the distance from a molecule on cell (ix, iy) to the center of the lattice */
+    double r_sum = 0;
+    #pragma omp parallel for reduction(+:r_sum)
+    for(int ix=0; ix<Lx; ix++)
+        for(int iy=0; iy<Ly; iy++){
+            int pos = get1D(ix, iy);
+            if(coffee[pos] != 0) r_sum += std::sqrt((ix-x_half)*(ix-x_half) + (iy-y_half)*(iy-y_half));
+        }
+    
+    return std::sqrt(r_sum/(1.0*N));
 }
 /* Saves file in gnuplot splot format*/
 void RWLattice::save(std::string filename){
