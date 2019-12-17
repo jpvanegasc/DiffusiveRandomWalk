@@ -38,8 +38,19 @@ negativos, o Lattice, donde se representan las moléculas como el número de cad
 mover las moléculas se recorre el Lattice celda por celda, y en caso de que se encuentre al 
 menos una molécula en una celda se mueve a alguna casilla inmediatamente adyacente a la celda. 
 Utilizando este algoritmo se toma un paso de tiempo está dado por un recorrido completo al 
-Lattice, a diferencia del empleado en el paradigma procedural. 
+Lattice, a diferencia del criterio empleado en el paradigma procedimental. 
 \\ \\
+Dos factores a considerar en este algoritmo es que, primero, en dado caso que una molécula 
+al desplazarse se ubique en la celda donde el algoritmo continúa buscando, esta se moverá 
+dos veces. Este caso, aunque poco probable, conlleva a una ligera pérdida de información 
+frente al algoritmo procedimental. En segundo lugar, dado que un paso de tiempo del paradigma 
+orientado a objetos implica mover aproximadamente todas las moléculas, cada paso de tiempo 
+de este algoritmo es N veces más rápido que el algoritmo procedural, con N el número inicial 
+de moléculas. Por lo tanto, cualquier cálculo que se realize en función del tiempo se verá 
+directamente afectado, resultando en que el algoritmo orientado a objetos solo calcula una 
+variable cada 400 cálculos del algoritmo procedural. Este factor sí debe tenerse en cuenta, y 
+solo puede ser despreciado en caso de que el tiempo computacional total que se deba utilizar 
+para hallar resultados concluyentes sea mucho mayor a 400.
 
 
 
