@@ -4,19 +4,9 @@
 #include<fstream>
 
 #include"Random64.hpp"
+#include"Constants.hpp"
 
-const int Lx = 200;
-const int Ly = 200;
-const int Nx = 20, Ny = 20;
-const int N = Nx*Ny;
-
-Crandom ran64(1);
-const double p = 0.5;
-
-const int cellsx = 8;
-const int cellsy = 8;
-const int step_x = Lx/cellsx;
-const int step_y = Ly/cellsy;
+Crandom ran64(seed);
 
 class RWLattice{
     private:
