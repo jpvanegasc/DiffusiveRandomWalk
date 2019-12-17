@@ -7,7 +7,7 @@ coffee.o : coffee.cpp
 	time ./$@ > coffee.txt
 
 .PHONY : parallel
-parallel : main.cpp
+parallel : coffee.cpp
 	g++ $(C_STD) -fopenmp -O2 $<
 	time ./a.out
 
@@ -17,30 +17,30 @@ debug : coffee.cpp
 	./a.out
 
 .PHONY : valgrind
-valgrind : main.cpp
+valgrind : coffee.cpp
 	g++ $(C_STD) -g $<
 	valgrind --track-origins=yes --leak-check=full ./a.out
 
 .PHONY : cachegrind
-cachegrind : main.cpp
+cachegrind : coffee.cpp
 	g++ $(C_STD) -g $<
 	valgrind --tool=cachegrind ./a.out
 
 .PHONY : gprof
-gprof : main.cpp
+gprof : coffee.cpp
 	g++ $(C_STD) -Wall -pg $<
 	./a.out
 	gprof a.out gmon.out > analysis.txt
 	most analysis.txt
 
 .PHONY : perf
-perf : main.cpp
+perf : coffee.cpp
 	g++ $(C_STD) -Wall -pg $<
 	perf record ./a.out ; perf report
 
 .PHONY : clean
 clean :
-	rm -f *.o *.txt *.out* debug main *.data
+	rm -f *.o *.txt *.out* debug coffee *.data
 
 .PHONY : plot
 plot : coffee.txt
