@@ -122,13 +122,23 @@ Vemos que en ambos paradigmas, y por lo tanto, algoritmos, el comportamiento de 
 
 A continuación, ya teniendo los dos paradigmas validados para simular este sístema, se procede a estudiar distintos aspectos físicos.
 
-En primer lugar, se estudia como depende el tiempo para el que se alcanza el equilibrio del tamaño de la taza. En la figura \ref{fig:S_vs_t_sizes} se ve como a medida que aumenta el tamaño del sístema, aumenta también el tiempo que le toma en llegar al equilibrio.
+En primer lugar, se estudia como depende el tiempo para el que se alcanza el equilibrio del tamaño de la taza. En la figura \ref{fig:S_vs_t_sizes} se ve como a medida que aumenta el tamaño del sístema, aumenta también el tiempo que le toma en llegar al equilibrio. Vemos que, dado que el eje x está en escala logarítmica, la diferencia entre el punto en el que para cada tamaño de Lattice se alcanza el equilibrio se encuentran igualmente espaciados, por lo que se podría proponer una ley de potencias entre el tamaño del Lattice y el tiempo de equilibrio.
+\\
 
+Realizando un análisis más detallado de los datos el exponente se encuentra alrededor de dos, como se puede hallar a partir de la figura \ref{fig:t_de_eq}, por lo que podemos concluir que el tiempo requerido para llegar al equilibrio crece con el cuadrado del tamaño del Lattice.
+\\
 \begin{figure*}
     \centering
     \includegraphics[width=0.75\textwidth]{figs/S_vs_t_sizes.png}
     \caption{Comparación de la Entropía en función del tiempo para diferentes tamaños de Lattice. Para mejorar la visualización, se gráfica el tiempo en escala logarítmica.}
     \label{fig:S_vs_t_sizes}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figs/t_eq.png}
+    \caption{Tiempos de equilibrio en función del tamaño de un lado del Lattice. Para mejorar la visualización se gráfica el tiempo en escala logarítmica.}
+    \label{fig:t_de_eq}
 \end{figure*}
 
 Por otro lado, el principio ergódico establece que en el equilibrio todos los estados son ocupados con igual probabilidad, lo que se da cuando la crema está distribuida uniformemente en todo el espacio. Esto concuerda con nuestro concepto intuitivo del equilibrio en este sístema. Para medir esto se estudia como varía el tamaño de la gota de crema en el tiempo. Esta medida se hace tomando la raiz del promedio de la distancia al orígen al cuadrado, es decir: 
@@ -164,7 +174,22 @@ Finalmente, consideremos lo que sucedería si la taza tiene un hueco en un lado 
 
 \section{Conclusiones}
 \begin{itemize}
-    \item 
+    \item Los dos algoritmos utilizados para modelar el sistema de la crema en el café son 
+    igualmente válidos, y, debido a la escala de tiempo que se requiere para tomar datos 
+    relevantes, se puede despreciar la información perdida al utilizar el algoritmo del 
+    paradigma orientado a objetos
+    \item Cada uno de los algoritmos resulta más eficiente para realizar determinado tipo de 
+    cálculo sobre el sistema, por lo que no se debe descartar ninguno de los dos al momento 
+    de modelar el sistema.
+    \item Se evidencia que el modelo tiene el comportamiento difusivo esperado, cumpliendo 
+    con aspectos como que el tiempo de equilibrio crece con el cuadrado del tamaño del Lattice, 
+    el tamaño de la gota de crema crece con la raíz cuadrada del tiempo, y en caso de incluir 
+    un agujero por donde las moléculas puedan salir, el número de moléculas disminuye 
+    exponencialmente con el tiempo.
+    \item Para un estudio más detallado del fenómeno se podría, entre otras cosas, estudiar 
+    en un arreglo tridimensional, limitar el numero de moléculas en una celda a únicamente 
+    una imponiendo reglas para el caso de que dos moléculas se choquen, o utilizar diferentes 
+    herramientas computacionales de simulación, como por ejemplo Lattice-Boltzmann.
 \end{itemize}
 
 \end{document}
