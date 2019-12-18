@@ -29,8 +29,8 @@ int main(void)
     double r1 = dis(gen);
     double r2 = dis(gen);
     random_step(Mol, r0 , r1, r2);
-    Entropy << t << "\t" << entropy(Mol) << "\n";
-    Size << t << "\t" << DropSize(Mol)/20.0 << "\n";
+    //Entropy << t << "\t" << entropy(Mol) << "\n";
+    Size << t << "\t" << DropSize(Mol) << "\n";
     if( t==10000 || t ==100000 || t==1000000) draw(Mol, t);
     }
     //draw(Mol);
